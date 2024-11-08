@@ -10,27 +10,18 @@ import { useRouter } from "expo-router";
 export default function Index() {
   const [loginUser, setLoginUser] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
-  const entrar = async () => {
-    await router.push('/principal');
-  }
+  const logonOk = () => router.push('./principal');
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/login', {
+      const response = await axios.post('http://localhost:8080/api/login', {
         loginuser: loginUser,
         password: password,
         headers: {'Authorization': '1',}
       });
       console.log('data:',response.data);
-      Toast.show({
-        type: 'success',
-        text1: 'Login com sucesso',
-        visibilityTime: 3000,
-        position: 'bottom'
-      });
-      setIsLoggedIn(true);
+      logonOk();
 
     } catch (error) {
       console.error('Error ao fazer o login', error);
@@ -41,10 +32,6 @@ export default function Index() {
         position: 'bottom'
       });
     }
-  }
-  if (isLoggedIn){
-    //return <Principal />
-    entrar();
   }
   return (
     <SafeAreaView style={Estilo.container} >
