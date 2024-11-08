@@ -4,10 +4,17 @@ import axios from "axios";
 import Toast from 'react-native-toast-message'
 import Estilo from '../assets/style/geral'
 import { TextInput } from "react-native-gesture-handler";
+import Principal from './principal'
+import { useRouter } from "expo-router";
 
 export default function Index() {
   const [loginUser, setLoginUser] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+  const entrar = async () => {
+    await router.push('/principal');
+  }
 
   const handleLogin = async () => {
     try {
@@ -23,7 +30,7 @@ export default function Index() {
         visibilityTime: 3000,
         position: 'bottom'
       });
-
+      setIsLoggedIn(true);
 
     } catch (error) {
       console.error('Error ao fazer o login', error);
@@ -35,7 +42,10 @@ export default function Index() {
       });
     }
   }
-
+  if (isLoggedIn){
+    //return <Principal />
+    entrar();
+  }
   return (
     <SafeAreaView style={Estilo.container} >
       <TextInput
